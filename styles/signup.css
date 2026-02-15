@@ -1,0 +1,312 @@
+body {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    background: radial-gradient(circle at top left, #0f2027, #203a43, #2c5364);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    overflow: hidden;
+  }
+  
+  .left-panel,
+  .right-panel {
+    flex: 1;
+    padding: 50px 45px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Left panel */
+  
+  .left-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 24px;
+  }
+  
+  .logo {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .left-panel img {
+    width: 220px;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 0 18px rgba(0, 255, 255, 0.7))
+            drop-shadow(0 0 40px rgba(0, 255, 255, 0.3));
+    animation: logoFloat 5s ease-in-out infinite;
+  }
+  
+  @keyframes logoFloat {
+    0%, 100% { transform: translateY(0);    }
+    50%       { transform: translateY(-8px); }
+  }
+  
+  .left-panel h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--cyan);
+    text-shadow:
+      0 0 8px rgba(0, 255, 255, 0.6),
+      0 0 30px rgba(0, 255, 255, 0.2);
+    max-width: 590px;
+    letter-spacing: 0.02em;
+  }
+  
+  /* Divider between panels */
+  
+  .left-panel::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(0, 255, 255, 0.3) 30%,
+      rgba(0, 255, 255, 0.3) 70%,
+      transparent
+    );
+  }
+  
+  /* Right panel */
+  
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px 45px;
+  }
+  
+  .right-panel h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    text-align: center;
+    margin-bottom: 8px;
+    text-shadow:
+      0 0 12px rgba(0, 255, 255, 0.7),
+      0 0 35px rgba(0, 255, 255, 0.25);
+    width: 100%;
+    max-width: 520px;
+  }
+  
+  /* Sign up form card */
+  
+  .signup-form {
+    background: var(--panel-bg);
+    border: 1px solid var(--divider);
+    border-radius: 16px;
+    padding: 36px 32px 32px;
+    box-shadow:
+      0 8px 40px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(0, 255, 255, 0.06) inset;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 530px;
+    animation: fadeUp 0.6s ease both;
+  }
+  
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0);    }
+  }
+  
+  .signup-form label,
+  .grid-2x2 label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 7px;
+    margin-top: 0;
+    display: block;
+  }
+  
+  /* Input boxes */
+  
+  .signup-form input,
+  .grid-2x2 input {
+    width: 100%;
+    padding: 10px 16px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+    display: block;
+  }
+  
+  .signup-form input::placeholder,
+  .grid-2x2 input::placeholder {
+    color: rgba(138, 170, 184, 0.45);
+    font-size: 0.9rem;
+  }
+  
+  .signup-form input:focus,
+  .grid-2x2 input:focus {
+    border-color: var(--cyan);
+    background: rgba(0, 255, 255, 0.05);
+    box-shadow:
+      0 0 0 3px rgba(0, 255, 255, 0.12),
+      0 0 18px rgba(0, 255, 255, 0.12);
+  }
+  
+  /* Dropdown */
+  
+  .signup-form select {
+    width: 100%;
+    padding: 10px 16px;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300ffff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+  
+  .signup-form select:focus {
+    border-color: var(--cyan);
+    background-color: rgba(0, 255, 255, 0.05);
+    box-shadow:
+      0 0 0 3px rgba(0, 255, 255, 0.12),
+      0 0 18px rgba(0, 255, 255, 0.12);
+  }
+  
+  .signup-form option {
+    background: #1a3040;
+    color: var(--text-primary);
+  }
+  
+  
+  
+  .grid-2x2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0px 10px;
+    margin-bottom: 4px;
+  }
+  
+  .grid-2x2 div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .grid-2x2 label {
+    margin-top: 18px;
+  }
+  
+  /* Password input boxes */
+  
+  label[for="password-label"],
+  label[for="password-confirmation"] {
+    margin-top: 12px;
+  }
+  
+  .password-field {
+    position: relative;
+    margin-bottom: 4px;
+  }
+  
+  .password-field input {
+    padding-right: 46px;
+  }
+  
+  .toggle-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--cyan);
+    font-size: 1.1rem;
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+    user-select: none;
+  }
+  
+  .toggle-icon:hover {
+    opacity: 1;
+    color: #0099ff;
+  }
+  
+  /* Submit button */
+  
+  button[type="submit"],
+  button {
+    width: 100%;
+    margin-top: 24px;
+    padding: 14px;
+    background: linear-gradient(90deg, #00e5e5, #0077ff);
+    color: #001a2e;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.08s, box-shadow 0.08s;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  button[type="submit"]:hover,
+  button:hover {
+    box-shadow: 0 0 20px #00ffff;
+  }
+  
+  /* Login button */
+  
+  .login-link {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+  
+  .login-link a {
+    color: var(--cyan);
+    text-decoration: none;
+    font-weight: 600;
+    transition: text-shadow 0.2s;
+  }
+  
+  .login-link a:hover {
+    text-shadow: 0 0 8px var(--cyan);
+  }
+  
+  

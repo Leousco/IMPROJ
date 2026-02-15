@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Nunito:wght@300;400;600&display=swap');
+
+:root {
+  --cyan: #00ffff;
+  --cyan-dim: rgba(0, 255, 255, 0.15);
+  --cyan-glow: rgba(0, 255, 255, 0.5);
+  --text-primary: #e8f4f8;
+  --text-muted: #8faab8;
+  --panel-bg: rgba(8, 22, 34, 0.65);
+  --input-bg: rgba(255, 255, 255, 0.06);
+  --input-border: rgba(0, 255, 255, 0.2);
+  --input-focus: rgba(0, 255, 255, 0.55);
+  --divider: rgba(0, 255, 255, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
