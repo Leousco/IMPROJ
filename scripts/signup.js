@@ -34,7 +34,7 @@ function sendOtp() {
             document.getElementById('otp-container').style.display = 'block';
             btn.disabled = false;
             btn.innerHTML = 'Verify OTP';
-            btn.onclick = verifyOtp; // switch button to verify OTP
+            btn.onclick = verifyOtp; 
             alert('OTP sent! Check your email.');
         } else {
             alert(data.message);

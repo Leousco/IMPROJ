@@ -1,4 +1,4 @@
-console.log("JS Loaded");
+console.log("JS Loaded"); // Debug
 
 function togglePassword(fieldId, icon) {
     const input = document.getElementById(fieldId);
