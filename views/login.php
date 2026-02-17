@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -25,6 +26,24 @@
     <!-- Right side -->
     <div class="right-panel">
       <h2>1QCU Inventory</h2>
+
+    <?php if (isset($_GET['error'])): ?>
+      <div id="login-alert" class="alert">
+        <?php
+          switch($_GET['error']) {
+            case 'empty':
+              echo "Please enter both email and password.";
+              break;
+            case 'invalid':
+              echo "Incorrect email or password.";
+              break;
+            case 'unverified':
+              echo "Your account is not verified. Check your email for the OTP.";
+              break;
+          }
+        ?>
+      </div>
+    <?php endif; ?>
 
       <form
         id="login-form"

@@ -1,4 +1,6 @@
-console.log("JS Loaded"); // Debug
+console.log("login.js Loaded"); // Debug
+
+// Pasword visi toggle
 
 function togglePassword(fieldId, icon) {
     const input = document.getElementById(fieldId);
@@ -13,40 +15,18 @@ function togglePassword(fieldId, icon) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+// Message Pop Up
 
-    const form = document.getElementById("login-form");
+document.addEventListener("DOMContentLoaded", function() {
+    const alertBox = document.getElementById('login-alert');
+    if (alertBox) {
+        // Show alert
+        alertBox.classList.add('show');
 
-    form.addEventListener("submit", function (event) {
-        console.log("Submit intercepted");
-        event.preventDefault();
-
-        const btn = form.querySelector('button[type="submit"]');
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Logging in...';
-
-        const formData = new FormData(form);
-
-        fetch("/IMPROJ/backend/controllers/LoginController.php", {
-            method: "POST",
-            body: formData
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log("Response:", data);
-
-            if (data.success) {
-                window.location.href = "/IMPROJ/views/landing_page.php"; 
-            } else {
-                alert(data.message);
-                btn.disabled = false;
-                btn.innerHTML = 'Log In';
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            btn.disabled = false;
-            btn.innerHTML = 'Log In';
-        });
-    });
+        // Hide after 3 seconds
+        setTimeout(() => {
+            alertBox.classList.remove('show');
+        }, 3000);
+    }
 });
+

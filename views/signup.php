@@ -21,8 +21,29 @@
     <!-- Right side -->
     <div class="right-panel">
       <h2>Create Your Account</h2>
-      
+
+    <?php if (isset($_GET['error'])): ?>
+        <div id="signup-alert" class="alert">
+            <?php
+            switch($_GET['error']) {
+                case 'empty':
+                echo "Please fill in all required fields.";
+                break;
+                case 'password_mismatch':
+                echo "Passwords do not match.";
+                break;
+                case 'exists':
+                echo "Email or Employee ID already exists.";
+                break;
+            }
+            ?>
+        </div>
+    <?php endif; ?>
+
   <form action="/IMPROJ/backend/controllers/AuthController.php" method="POST" id="signup-form" class="signup-form" autocomplete="off">
+
+      <input type="hidden" name="action" value="register">
+
       <div class="grid-2x2">
           <div style="grid-column: 1 / -1">
               <label for="full_name">Full Name</label>
@@ -63,16 +84,11 @@
 
       <label for="password-confirmation">Confirm Password</label>
       <div class="password-field">
-          <input type="password" id="password-confirmation" placeholder="Re-enter your password" autocomplete="new-password" required>
+          <input type="password" id="password-confirmation" name="password_confirmation" placeholder="Re-enter your password" autocomplete="new-password" required>
           <i class="fa-solid fa-eye toggle-icon" onclick="togglePassword('password-confirmation', this)"></i>
       </div>
 
-      <div id="otp-container" class="otp-container" style="display:none; margin-top:15px;">
-         <label for="otp">Enter OTP sent to your email</label>
-         <input type="text" id="otp" placeholder="6-digit OTP">
-      </div>
-
-      <button type="button" id="signup-btn" class="btn" style="margin-top:15px;">Send OTP</button>
+      <button type="submit" class="btn" style="margin-top:15px;">Send OTP</button>
 
       <div class="login-link" style="margin-top:10px;">
           Already have an account? <a href="login.php">Login here</a>

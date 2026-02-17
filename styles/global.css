@@ -23,3 +23,24 @@
 html {
     scroll-behavior: smooth;
 }
+
+.alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 15px 20px;
+  border-radius: 5px;
+  border: 1px solid #f5c6cb;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.alert.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
