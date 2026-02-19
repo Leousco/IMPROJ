@@ -1,7 +1,9 @@
 <?php
 session_start();
-require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/database.php'; // $pdo from database.php
 require_once __DIR__ . '/../services/MailService.php';
+
+$pdo = $conn;
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: /IMPROJ/views/signup.php");
@@ -10,7 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $action = $_POST['action'] ?? '';
 
+// ==============================
 // REGISTER
+// ==============================
 if ($action === 'register') {
 
     $full_name   = trim($_POST['full_name']);
@@ -41,13 +45,13 @@ if ($action === 'register') {
     // Check if user exists
     $check = $pdo->prepare("SELECT * FROM users WHERE email = ?");
     $check->execute([$email]);
-    $existingUser = $check->fetch();
+    $existingUser = $check->fetch(PDO::FETCH_ASSOC);
 
     if ($existingUser) {
-        if ($existingUser['is_verified'] == 0) {
+        if ($existingUser['IS_VERIFIED'] == 0) {
             $update = $pdo->prepare("
                 UPDATE users 
-                SET full_name = ?, department = ?, employee_id = ?, password = ?, otp_code = ?, otp_expires_at = ? 
+                SET full_name = ?, department = ?, employee_id = ?, password = ?, otp_code = ?, otp_expires_at = ?
                 WHERE email = ?
             ");
             $update->execute([$full_name, $department, $employee_id, $hashed_password, $otpHashed, $expires, $email]);
@@ -57,15 +61,15 @@ if ($action === 'register') {
             header("Location: /IMPROJ/views/verify_email.php");
             exit;
         } else {
-            // Email already verified
             header("Location: /IMPROJ/views/signup.php?error=exists");
             exit;
         }
     }
 
+    // Insert new user (USER_ID auto-incremented via trigger)
     $stmt = $pdo->prepare("
         INSERT INTO users
-        (full_name, email, department, employee_id, password, otp_code, otp_expires_at, is_verified)
+        (FULL_NAME, EMAIL, DEPARTMENT, EMPLOYEE_ID, PASSWORD, OTP_CODE, OTP_EXPIRES_AT, IS_VERIFIED)
         VALUES (?, ?, ?, ?, ?, ?, ?, 0)
     ");
     $stmt->execute([$full_name, $email, $department, $employee_id, $hashed_password, $otpHashed, $expires]);
@@ -77,8 +81,9 @@ if ($action === 'register') {
     exit;
 }
 
-
+// ==============================
 // VERIFY OTP
+// ==============================
 if ($action === 'verify_otp') {
 
     if (!isset($_SESSION['verify_email'])) {
@@ -89,19 +94,18 @@ if ($action === 'verify_otp') {
     $email = $_SESSION['verify_email'];
     $otpInput = trim($_POST['otp']);
 
-    $stmt = $pdo->prepare("SELECT otp_code, otp_expires_at FROM users WHERE email = ?");
+    $stmt = $pdo->prepare("SELECT OTP_CODE, OTP_EXPIRES_AT FROM users WHERE EMAIL = ?");
     $stmt->execute([$email]);
-    $user = $stmt->fetch();
-
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user &&
-        password_verify($otpInput, $user['otp_code']) &&
-        strtotime($user['otp_expires_at']) > time()) {
+        password_verify($otpInput, $user['OTP_CODE']) &&
+        strtotime($user['OTP_EXPIRES_AT']) > time()) {
 
         $update = $pdo->prepare("
             UPDATE users
-            SET is_verified = 1, otp_code = NULL, otp_expires_at = NULL
-            WHERE email = ?
+            SET IS_VERIFIED = 1, OTP_CODE = NULL, OTP_EXPIRES_AT = NULL
+            WHERE EMAIL = ?
         ");
         $update->execute([$email]);
 
@@ -114,7 +118,9 @@ if ($action === 'verify_otp') {
     exit;
 }
 
+// ==============================
 // RESEND OTP
+// ==============================
 if ($action === 'resend_otp') {
 
     if (!isset($_SESSION['verify_email'])) {
@@ -130,8 +136,8 @@ if ($action === 'resend_otp') {
 
     $stmt = $pdo->prepare("
         UPDATE users
-        SET otp_code = ?, otp_expires_at = ?
-        WHERE email = ?
+        SET OTP_CODE = ?, OTP_EXPIRES_AT = ?
+        WHERE EMAIL = ?
     ");
     $stmt->execute([$otpHashed, $expires, $email]);
 
