@@ -1,0 +1,18 @@
+<?php
+session_start();
+require 'db.php';
+
+if (isset($_COOKIE['remember_me'])) {
+    $tokenHash = hash('sha256', $_COOKIE['remember_me']);
+
+    $sql = "DELETE FROM remember_tokens WHERE token_hash = :token";
+    $stid = oci_parse($conn, $sql);
+    oci_bind_by_name($stid, ':token', $tokenHash);
+    oci_execute($stid);
+
+    setcookie('remember_me', '', time() - 3600, '/');
+}
+
+session_destroy();
+header("Location: login.php");
+exit;
