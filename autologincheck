@@ -1,0 +1,24 @@
+<?php
+session_start();
+require 'db.php';
+
+if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
+
+    $tokenHash = hash('sha256', $_COOKIE['remember_me']);
+
+    $sql = "SELECT user_id FROM remember_tokens
+            WHERE token_hash = :token
+            AND expires_at > SYSTIMESTAMP";
+    $stid = oci_parse($conn, $sql);
+    oci_bind_by_name($stid, ':token', $tokenHash);
+    oci_execute($stid);
+
+    $row = oci_fetch_assoc($stid);
+
+    if ($row) {
+        $_SESSION['user_id'] = $row['USER_ID'];
+    } else {
+        // Token expired or invalid
+        setcookie('remember_me', '', time() - 3600, '/');
+    }
+}
