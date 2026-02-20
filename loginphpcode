@@ -1,0 +1,50 @@
+<?php
+session_start();
+require 'db.php'; // your Oracle connection
+
+$email = $_POST['email'];
+$password = $_POST['password'];
+$remember = isset($_POST['remember_me']);
+
+$sql = "SELECT id, password FROM users WHERE email = :email";
+$stid = oci_parse($conn, $sql);
+oci_bind_by_name($stid, ':email', $email);
+oci_execute($stid);
+
+$user = oci_fetch_assoc($stid);
+
+if ($user && password_verify($password, $user['PASSWORD'])) {
+
+    // Normal login
+    $_SESSION['user_id'] = $user['ID'];
+
+    if ($remember) {
+        $token = bin2hex(random_bytes(32));
+        $tokenHash = hash('sha256', $token);
+        $expires = time() + 300; // 5 minutes
+
+        // Save token in DB
+        $sql = "INSERT INTO remember_tokens (user_id, token_hash, expires_at)
+                VALUES (:uid, :token, SYSTIMESTAMP + INTERVAL '5' MINUTE)";
+        $stid = oci_parse($conn, $sql);
+        oci_bind_by_name($stid, ':uid', $user['ID']);
+        oci_bind_by_name($stid, ':token', $tokenHash);
+        oci_execute($stid);
+
+        // Save token in cookie
+        setcookie(
+            'remember_me',
+            $token,
+            $expires,
+            '/',
+            '',
+            true,
+            true
+        );
+    }
+
+    header("Location: dashboard.php");
+    exit;
+}
+
+echo "Invalid login";
