@@ -1,0 +1,11 @@
+<form method="POST" action="login.php">
+    <input type="email" name="email" required>
+    <input type="password" name="password" required>
+
+    <label>
+        <input type="checkbox" name="remember_me">
+        Keep me logged in
+    </label>
+
+    <button type="submit">Login</button>
+</form>
